@@ -335,6 +335,7 @@ void tray_manager::reconfigure_window() {
 
   auto width = calculate_w();
   auto x = calculate_x(width);
+  auto y = calculate_y();
 
   if (m_opts.transparent) {
     xcb_rectangle_t rect{0, 0, calculate_w(), calculate_h()};
@@ -350,12 +351,14 @@ void tray_manager::reconfigure_window() {
 
     XCB_AUX_ADD_PARAM(&mask, &params, width, width);
     XCB_AUX_ADD_PARAM(&mask, &params, x, x);
+    XCB_AUX_ADD_PARAM(&mask, &params, y, y);
     connection::pack_values(mask, &params, values);
     m_connection.configure_window_checked(m_tray, mask, values);
   }
 
   m_opts.configured_w = width;
   m_opts.configured_x = x;
+  m_opts.configured_y = y;
 }
 
 /**
